@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentora1 - Premium Electronics Store</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#3B82F6',
+              secondary: '#10B981',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      .gradient-bg {
+        background: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);
+      }
+      .product-card {
+        transition: all 0.3s ease;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      }
+      .dropdown:hover .dropdown-menu {
+        display: block;
+      }
+      .cart-count {
+        transition: all 0.3s ease;
+      }
+      .add-to-cart {
+        transition: all 0.3s ease;
+      }
+      .add-to-cart:hover {
+        transform: scale(1.05);
+      }
+      .wishlist-btn:hover {
+        color: #EF4444;
+      }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Top Bar -->
+    <div class="bg-primary text-white py-2 px-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="flex space-x-4">
+          <span><i data-feather="phone" class="w-4 h-4 mr-1"></i> +254 700 000000</span>
+          <span><i data-feather="mail" class="w-4 h-4 mr-1"></i> info@mentora1.com</span>
+        </div>
+        <div class="flex space-x-4">
+          <a href="#"><i data-feather="facebook" class="w-4 h-4 hover:text-secondary"></i></a>
+          <a href="#"><i data-feather="twitter" class="w-4 h-4 hover:text-secondary"></i></a>
+          <a href="#"><i data-feather="instagram" class="w-4 h-4 hover:text-secondary"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div class="flex items-center justify-between mb-4 md:mb-0">
+            <a href="/" class="flex items-center">
+              <i data-feather="zap" class="text-primary w-8 h-8"></i>
+              <span class="ml-2 text-2xl font-bold text-gray-800">Mentora1</span>
+            </a>
+            <button class="md:hidden focus:outline-none" id="mobile-menu-button">
+              <i data-feather="menu" class="w-6 h-6"></i>
+            </button>
+          </div>
+          
+          <div class="hidden md:flex items-center space-x-8" id="desktop-menu">
+            <nav>
+              <ul class="flex space-x-8">
+                <li class="dropdown relative">
+                  <a href="#" class="text-gray-700 hover:text-primary flex items-center">
+                    Categories <i data-feather="chevron-down" class="w-4 h-4 ml-1"></i>
+                  </a>
+                  <div class="dropdown-menu absolute hidden bg-white shadow-lg rounded-md mt-2 w-48 py-1 z-50">
+                    <a href="/categories/smartphones" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Smartphones</a>
+                    <a href="/categories/laptops" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Laptops</a>
+                    <a href="/categories/accessories" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Accessories</a>
+                    <a href="/categories/home-appliances" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Home Appliances</a>
+                    <a href="/categories/audio-amps" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Audio Amps</a>
+                    <a href="/categories/electronic-modules" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Electronic Modules</a>
+                  </div>
+                </li>
+                <li><a href="/deals" class="text-gray-700 hover:text-primary">Deals</a></li>
+                <li><a href="/new-arrivals" class="text-gray-700 hover:text-primary">New Arrivals</a></li>
+                <li><a href="/about" class="text-gray-700 hover:text-primary">About</a></li>
+                <li><a href="/contact" class="text-gray-700 hover:text-primary">Contact</a></li>
+</ul>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+              <a href="#" class="text-gray-700 hover:text-primary">
+                <i data-feather="user" class="w-5 h-5"></i>
+              </a>
+              <a href="#" class="text-gray-700 hover:text-primary relative" id="cart-icon">
+                <i data-feather="shopping-cart" class="w-5 h-5"></i>
+                <span class="cart-count absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center" id="cart-counter">0</span>
+              </a>
+              <a href="#" class="text-gray-700 hover:text-primary">
+                <i data-feather="heart" class="w-5 h-5"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="hidden md:hidden py-4" id="mobile-menu">
+          <nav class="mb-4">
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="block py-2 text-gray-700 hover:text-primary">Categories</a>
+                <ul class="pl-4 space-y-2 mt-2">
+                  <li><a href="/categories/smartphones" class="block py-1 text-gray-600 hover:text-primary">Smartphones</a></li>
+                  <li><a href="/categories/laptops" class="block py-1 text-gray-600 hover:text-primary">Laptops</a></li>
+                  <li><a href="/categories/accessories" class="block py-1 text-gray-600 hover:text-primary">Accessories</a></li>
+                  <li><a href="/categories/home-appliances" class="block py-1 text-gray-600 hover:text-primary">Home Appliances</a></li>
+                </ul>
+              </li>
+              <li><a href="/deals" class="block py-2 text-gray-700 hover:text-primary">Deals</a></li>
+              <li><a href="/new-arrivals" class="block py-2 text-gray-700 hover:text-primary">New Arrivals</a></li>
+              <li><a href="/about" class="block py-2 text-gray-700 hover:text-primary">About</a></li>
+              <li><a href="/contact" class="block py-2 text-gray-700 hover:text-primary">Contact</a></li>
+</ul>
+          </nav>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-700 hover:text-primary">
+              <i data-feather="user" class="w-5 h-5"></i>
+            </a>
+            <a href="#" class="text-gray-700 hover:text-primary relative" id="mobile-cart-icon">
+              <i data-feather="shopping-cart" class="w-5 h-5"></i>
+              <span class="cart-count absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center" id="mobile-cart-counter">0</span>
+            </a>
+            <a href="#" class="text-gray-700 hover:text-primary">
+              <i data-feather="heart" class="w-5 h-5"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16">
+      <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-8 md:mb-0">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">Premium Electronics at Unbeatable Prices</h1>
+          <p class="text-xl mb-6">Discover the latest gadgets and technology to power your digital lifestyle.</p>
+          <a href="#" class="bg-white text-primary font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition duration-300 inline-block transform hover:scale-105">Shop Now</a>
+        </div>
+        <div class="md:w-1/2 flex justify-center">
+          <img src="http://static.photos/technology/1200x630/42" alt="Electronics" class="rounded-lg shadow-xl w-full max-w-md hover:shadow-2xl transition duration-300">
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-12 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Shop By Category</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <a href="#" class="category-card bg-gray-50 rounded-lg p-6 text-center hover:shadow-md transition duration-300 transform hover:scale-105">
+            <div class="bg-primary bg-opacity-10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i data-feather="smartphone" class="text-primary w-8 h-8"></i>
+            </div>
+            <h3 class="font-semibold text-lg text-gray-800">Smartphones</h3>
+          </a>
+          <a href="#" class="category-card bg-gray-50 rounded-lg p-6 text-center hover:shadow-md transition duration-300 transform hover:scale-105">
+            <div class="bg-primary bg-opacity-10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i data-feather="monitor" class="text-primary w-8 h-8"></i>
+            </div>
+            <h3 class="font-semibold text-lg text-gray-800">Laptops</h3>
+          </a>
+          <a href="#" class="category-card bg-gray-50 rounded-lg p-6 text-center hover:shadow-md transition duration-300 transform hover:scale-105">
+            <div class="bg-primary bg-opacity-10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i data-feather="headphones" class="text-primary w-8 h-8"></i>
+            </div>
+            <h3 class="font-semibold text-lg text-gray-800">Accessories</h3>
+          </a>
+          <a href="#" class="category-card bg-gray-50 rounded-lg p-6 text-center hover:shadow-md transition duration-300 transform hover:scale-105">
+            <div class="bg-primary bg-opacity-10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <i data-feather="home" class="text-primary w-8 h-8"></i>
+            </div>
+            <h3 class="font-semibold text-lg text-gray-800">Home Appliances</h3>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="py-12 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-bold text-gray-800">Featured Products</h2>
+          <a href="#" class="text-primary font-semibold hover:underline">View All</a>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <!-- Product 1 -->
+          <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm transition duration-300">
+            <div class="relative">
+              <img src="http://static.photos/technology/640x360/1" alt="Product" class="w-full h-48 object-cover">
+              <div class="absolute top-2 right-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded">NEW</div>
+              <div class="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded">HOT</div>
+            </div>
+            <div class="p-4">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-semibold text-lg text-gray-800 mb-1">Samsung Galaxy S23</h3>
+                  <p class="text-gray-600 text-sm">Latest smartphone with 108MP camera</p>
+                </div>
+                <div class="text-primary font-bold">KSh 120,000</div>
+              </div>
+              <div class="mt-4 flex justify-between items-center">
+                <button class="add-to-cart bg-primary text-white px-3 py-1 rounded text-sm hover:bg-primary-600 transition duration-300" data-product="Samsung Galaxy S23" data-price="120000">Add to Cart</button>
+                <button class="wishlist-btn text-gray-400 hover:text-primary">
+                  <i data-feather="heart" class="w-5 h-5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Product 2 -->
+          <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm transition duration-300">
+            <div class="relative">
+              <img src="http://static.photos/technology/640x360/2" alt="Product" class="w-full h-48 object-cover">
+              <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-20%</div>
+            </div>
+            <div class="p-4">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-semibold text-lg text-gray-800 mb-1">MacBook Pro M2</h3>
+                  <p class="text-gray-600 text-sm">16GB RAM, 512GB SSD</p>
+                </div>
+                <div class="flex items-center">
+                  <span class="text-gray-400 line-through text-sm mr-2">KSh 220,000</span>
+                  <span class="text-primary font-bold">KSh 176,000</span>
+                </div>
+              </div>
+              <div class="mt-4 flex justify-between items-center">
+                <button class="add-to-cart bg-primary text-white px-3 py-1 rounded text-sm hover:bg-primary-600 transition duration-300" data-product="MacBook Pro M2" data-price="176000">Add to Cart</button>
+                <button class="wishlist-btn text-gray-400 hover:text-primary">
+                  <i data-feather="heart" class="w-5 h-5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Product 3 -->
+          <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm transition duration-300">
+            <div class="relative">
+              <img src="http://static.photos/technology/640x360/3" alt="Product" class="w-full h-48 object-cover">
+              <div class="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded">BEST</div>
+            </div>
+            <div class="p-4">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-semibold text-lg text-gray-800 mb-1">AirPods Pro 2</h3>
+                  <p class="text-gray-600 text-sm">Active Noise Cancellation</p>
+                </div>
+                <div class="text-primary font-bold">KSh 25,000</div>
+              </div>
+              <div class="mt-4 flex justify-between items-center">
+                <button class="add-to-cart bg-primary text-white px-3 py-1 rounded text-sm hover:bg-primary-600 transition duration-300" data-product="AirPods Pro 2" data-price="25000">Add to Cart</button>
+                <button class="wishlist-btn text-gray-400 hover:text-primary">
+                  <i data-feather="heart" class="w-5 h-5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Product 4 -->
+          <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm transition duration-300">
+            <div class="relative">
+              <img src="http://static.photos/technology/640x360/4" alt="Product" class="w-full h-48 object-cover">
+              <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">BEST</div>
+            </div>
+            <div class="p-4">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-semibold text-lg text-gray-800 mb-1">Smart TV 55"</h3>
+                  <p class="text-gray-600 text-sm">4K Ultra HD with HDR</p>
+                </div>
+                <div class="text-primary font-bold">KSh 85,000</div>
+              </div>
+              <div class="mt-4 flex justify-between items-center">
+                <button class="add-to-cart bg-primary text-white px-3 py-1 rounded text-sm hover:bg-primary-600 transition duration-300" data-product="Smart TV 55" data-price="85000">Add to Cart</button>
+                <button class="wishlist-btn text-gray-400 hover:text-primary">
+                  <i data-feather="heart" class="w-5 h-5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Banner -->
+    <section class="py-12 bg-primary text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-4">Summer Sale - Up to 30% Off!</h2>
+        <p class="text-xl mb-6">Limited time offers on selected items. Don't miss out!</p>
+        <a href="#" class="bg-white text-primary font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition duration-300 inline-block transform hover:scale-105">Shop the Sale</a>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-12 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">What Our Customers Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-gray-50 p-6 rounded-lg hover:shadow-md transition duration-300">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                <img src="http://static.photos/people/200x200/1" alt="Customer" class="w-full h-full object-cover">
+              </div>
+              <div>
+                <h4 class="font-semibold">James K.</h4>
+                <div class="flex">
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600">"The MacBook Pro I ordered arrived sooner than expected and works perfectly. Great service!"</p>
+          </div>
+          
+          <div class="bg-gray-50 p-6 rounded-lg hover:shadow-md transition duration-300">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                <img src="http://static.photos/people/200x200/2" alt="Customer" class="w-full h-full object-cover">
+              </div>
+              <div>
+                <h4 class="font-semibold">Sarah M.</h4>
+                <div class="flex">
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600">"Excellent customer support when I had questions about my purchase. Will definitely buy again."</p>
+          </div>
+          
+          <div class="bg-gray-50 p-6 rounded-lg hover:shadow-md transition duration-300">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                <img src="http://static.photos/people/200x200/3" alt="Customer" class="w-full h-full object-cover">
+              </div>
+              <div>
+                <h4 class="font-semibold">David O.</h4>
+                <div class="flex">
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                  <i data-feather="star" class="text-yellow-400 w-4 h-4"></i>
+                </div>
+              </div>
+            </div>
+            <p class="text-gray-600">"The fastest delivery I've ever experienced. Product was exactly as described. Highly recommended!"</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-12 bg-gray-50">
+      <div class="container mx-auto px-4 text-center max-w-3xl">
+        <h2 class="text-3xl font-bold mb-4 text-gray-800">Subscribe to Our Newsletter</h2>
+        <p class="text-gray-600 mb-6">Get the latest deals, new arrivals, and exclusive offers delivered straight to your inbox.</p>
+        <form class="flex flex-col sm:flex-row gap-2 justify-center" id="newsletter-form">
+          <input type="email" placeholder="Your email address" class="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent flex-grow max-w-md" required>
+          <button type="submit" class="bg-primary text-white font-semibold px-6 py-3 rounded-lg hover:bg-primary-600 transition duration-300 transform hover:scale-105">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+      <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[80vh] overflow-y-auto">
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold">Your Cart</h3>
+            <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+              <i data-feather="x" class="w-6 h-6"></i>
+            </button>
+          </div>
+          <div id="cart-items" class="space-y-4">
+            <!-- Cart items will be added here dynamically -->
+          </div>
+          <div class="border-t mt-4 pt-4">
+            <div class="flex justify-between font-bold text-lg">
+              <span>Total:</span>
+              <span id="cart-total">KSh 0</span>
+            </div>
+            <button class="w-full bg-primary text-white py-3 rounded-lg mt-4 hover:bg-primary-600 transition duration-300">Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hidden flex items-center space-x-2">
+      <i data-feather="check-circle" class="w-5 h-5"></i>
+      <span id="toast-message">Product added to cart!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-12 pb-6">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">Mentora1</h3>
+            <p class="text-gray-400 mb-4">Your trusted source for premium electronics and gadgets in Kenya.</p>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white"><i data-feather="facebook"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i data-feather="twitter"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i data-feather="instagram"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i data-feather="youtube"></i></a>
+            </div>
+          </div>
+          
+          <div>
+            <h4 class="font-semibold text-lg mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Products</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-semibold text-lg mb-4">Categories</h4>
+            <ul class="space-y-2">
+              <li><a href="#" class="text-gray-400 hover:text-white">Smartphones</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Laptops</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Accessories</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Home Appliances</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-white">Gaming</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-semibold text-lg mb-4">Contact Us</h4>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <i data-feather="map-pin" class="w-5 h-5 mr-2 mt-1 flex-shrink-0"></i>
+                <span class="text-gray-400">123 Tech Street, Nairobi, Kenya</span>
+              </li>
+              <li class="flex items-center">
+                <i data-feather="phone" class="w-5 h-5 mr-2"></i>
+                <span class="text-gray-400">+254 700 000000</span>
+              </li>
+              <li class="flex items-center">
+                <i data-feather="mail" class="w-5 h-5 mr-2"></i>
+                <span class="text-gray-400">info@mentora1.com</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 Mentora1. All rights reserved.</p>
+          <div class="flex space-x-6">
+            <a href="#" class="text-gray-400 hover:text-white text-sm">Privacy Policy</a>
+            <a href="#" class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
+            <a href="#" class="text-gray-400 hover:text-white text-sm">Shipping Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Initialize feather icons
+      feather.replace();
+      
+      // Mobile menu toggle
+      document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+      });
+      
+      // Cart functionality
+      let cart = [];
+      
+      document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+          const product = this.dataset.product;
+          const price = parseFloat(this.dataset.price);
+          
+          // Add to cart
+          cart.push({ product, price });
+          
+          // Update cart count
+          updateCartCount();
+          
+          // Show toast notification
+          showToast(`${product} added to cart!`);
+        });
+      });
+      
+      // Cart icon click
+      document.getElementById('cart-icon').addEventListener('click', function(e) {
+        e.preventDefault();
+        showCartModal();
+      });
+      
+      // Mobile cart icon click
+      document.getElementById('mobile-cart-icon').addEventListener('click', function(e) {
+        e.preventDefault();
+        showCartModal();
+      });
+      
+      // Close cart modal
+      document.getElementById('close-cart').addEventListener('click', function() {
+        document.getElementById('cart-modal').classList.add('hidden');
+      });
+      
+      // Newsletter form
+      document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = this.querySelector('input').value;
+        showToast(`Thanks for subscribing with ${email}!`);
+        this.reset();
+      });
+      
+      function updateCartCount() {
+        const count = cart.length;
+        document.getElementById('cart-counter').textContent = count;
+        document.getElementById('mobile-cart-counter').textContent = count;
+        
+        // Bounce animation
+        document.querySelectorAll('.cart-count').forEach(el => {
+          el.classList.add('animate-bounce');
+          setTimeout(() => {
+            el.classList.remove('animate-bounce');
+          }, 1000);
+        });
+      }
+      
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        
+        toastMessage.textContent = message;
+        toast.classList.remove('hidden');
+        
+        setTimeout(() => {
+          toast.classList.add('hidden');
+        }, 3000);
+        
+        // Refresh icons in case new ones were added
+        feather.replace();
+      }
+      
+      function showCartModal() {
+        const modal = document.getElementById('cart-modal');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        
+        // Clear previous items
+        cartItems.innerHTML = '';
+        
+        if (cart.length === 0) {
+          cartItems.innerHTML = '<p class="text-center text-gray-500 py-4">Your cart is empty</p>';
+        } else {
+          let total = 0;
+          
+          cart.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'flex justify-between items-center border-b pb-4';
+            itemElement.innerHTML = `
+              <div>
+                <h4 class="font-semibold">${item.product}</h4>
+                <p class="text-gray-600">KSh ${item.price.toLocaleString()}</p>
+              </div>
+              <button class="remove-item text-red-500 hover:text-red-700">
+                <i data-feather="trash-2" class="w-5 h-5"></i>
+              </button>
+            `;
+            cartItems.appendChild(itemElement);
+            
+            total += item.price;
+          });
+          
+          // Update total
+          cartTotal.textContent = `KSh ${total.toLocaleString()}`;
+          
+          // Add event listeners to remove buttons
+          document.querySelectorAll('.remove-item').forEach((button, index) => {
+            button.addEventListener('click', function() {
+              cart.splice(index, 1);
+              updateCartCount();
+              showCartModal();
+              showToast('Item removed from cart');
+            });
+          });
+        }
+        
+        modal.classList.remove('hidden');
+        feather.replace();
+      }
+      
+      // Close modal when clicking outside
+      document.getElementById('cart-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.add('hidden');
+        }
+      });
+    </script>
+</body>
+</html>
